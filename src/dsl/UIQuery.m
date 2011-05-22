@@ -322,7 +322,11 @@
 			}
 			
 			SEL selector = NSSelectorFromString(key);
-			if ([object respondsToSelector:selector]) {
+            
+            // Apple declares but does not implement _mapkit_hasPanoramaID, therefore
+            // we ignore _mapkit_hasPanoramaID until Apple provides an implementation
+            BOOL mapkit_hasPanoramaID = (strcmp(propertyName, "_mapkit_hasPanoramaID") == 0);
+            if ([object respondsToSelector:selector] && mapkit_hasPanoramaID == NO) {
 				NSMethodSignature *sig = [object methodSignatureForSelector:selector];
 				//NSLog(@"sig = %@", sig);
 				NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
